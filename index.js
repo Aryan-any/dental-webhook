@@ -88,6 +88,13 @@ function normalizeDate(input) {
 
 app.get("/", (req, res) => res.json({ status: "OK", service_account: credentials.client_email }));
 
+app.get("/current-date", (req, res) => {
+  const now = new Date();
+  const start = now.toISOString().split("T")[0];
+  const end = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
+  res.json({ today: start, seven_days_from_today: end, timezone: "UTC" });
+});
+
 app.post("/lookup-patient", async (req, res) => {
   try {
     console.log("lookup-patient:", JSON.stringify(req.body));
